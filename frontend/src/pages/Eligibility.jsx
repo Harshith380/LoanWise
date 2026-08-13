@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { ShieldCheck, Sparkles } from "lucide-react";
-
-import EligibilityForm from "../components/eligibility/EligibilityForm";
-import EligibilityResult from "../components/eligibility/EligibilityResult";
+import EligibilityForm from "../components/Eligibility/EligibilityForm";
+import EligibilityResult from "../components/Eligibility/EligibilityResult";
 
 function Eligibility() {
 

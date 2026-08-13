@@ -51,12 +51,13 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
 
         configuration.setAllowedOrigins(
-            List.of(
-                "http://localhost:5173",
-                "http://localhost:5174",
-                "https://loan-wise-6ckcnxq2i-harshith-16ef.vercel.app"
-            )
-        );
+    List.of(
+        "http://localhost:5173",
+        "http://localhost:5174",
+        "https://loan-wise-two.vercel.app",
+        "https://loan-wise-f1ebyqklq-harshith-16ef.vercel.app"
+    )
+);
 
         configuration.setAllowedMethods(
             List.of(

@@ -11,13 +11,18 @@ function ManageUsers() {
 
   const fetchUsers = async () => {
     try {
+      const API_URL = import.meta.env.VITE_API_URL;
+
       const response = await axios.get(
-        "http://localhost:8080/api/admin/users"
+        `${API_URL}/api/admin/users`
       );
 
-      setUsers(response.data);
+      setUsers(response.data || []);
     } catch (error) {
-      console.error("Error fetching users:", error);
+      console.error(
+        "Error fetching users:",
+        error
+      );
     }
   };
 
@@ -28,32 +33,45 @@ function ManageUsers() {
       </h2>
 
       <div className="bg-white rounded-xl shadow p-6 overflow-x-auto">
-
         <table className="w-full border-collapse">
-
           <thead>
-
             <tr className="bg-gray-100">
+              <th className="border p-3">
+                ID
+              </th>
 
-              <th className="border p-3">ID</th>
-              <th className="border p-3">Full Name</th>
-              <th className="border p-3">Email</th>
-              <th className="border p-3">Credit Score</th>
-              <th className="border p-3">Monthly Savings</th>
-              <th className="border p-3">Approval Rate</th>
-              <th className="border p-3">Role</th>
+              <th className="border p-3">
+                Full Name
+              </th>
 
+              <th className="border p-3">
+                Email
+              </th>
+
+              <th className="border p-3">
+                Credit Score
+              </th>
+
+              <th className="border p-3">
+                Monthly Savings
+              </th>
+
+              <th className="border p-3">
+                Approval Rate
+              </th>
+
+              <th className="border p-3">
+                Role
+              </th>
             </tr>
-
           </thead>
 
           <tbody>
-
             {users.map((user) => (
-
               <tr key={user.id}>
-
-                <td className="border p-3">{user.id}</td>
+                <td className="border p-3">
+                  {user.id}
+                </td>
 
                 <td className="border p-3">
                   {user.fullName}
@@ -68,7 +86,8 @@ function ManageUsers() {
                 </td>
 
                 <td className="border p-3">
-                  ₹ {user.monthlySavings?.toLocaleString()}
+                  ₹{" "}
+                  {user.monthlySavings?.toLocaleString()}
                 </td>
 
                 <td className="border p-3">
@@ -78,13 +97,9 @@ function ManageUsers() {
                 <td className="border p-3 font-semibold">
                   {user.role}
                 </td>
-
               </tr>
-
             ))}
-
           </tbody>
-
         </table>
 
         {users.length === 0 && (
@@ -92,9 +107,7 @@ function ManageUsers() {
             No users found.
           </div>
         )}
-
       </div>
-
     </AdminLayout>
   );
 }

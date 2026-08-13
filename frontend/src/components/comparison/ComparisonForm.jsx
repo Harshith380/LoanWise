@@ -4,7 +4,6 @@ import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 
 function ComparisonForm({ loans, setLoans }) {
-
   const [bankName, setBankName] = useState("");
   const [loanAmount, setLoanAmount] = useState("");
   const [interestRate, setInterestRate] = useState("");
@@ -12,23 +11,16 @@ function ComparisonForm({ loans, setLoans }) {
   const [loading, setLoading] = useState(false);
 
   const addLoan = async () => {
-
-    if (
-      !bankName ||
-      !loanAmount ||
-      !interestRate ||
-      !loanTenure
-    ) {
+    if (!bankName || !loanAmount || !interestRate || !loanTenure) {
       toast.warning("Please fill all fields");
       return;
     }
 
     try {
-
       setLoading(true);
 
       const response = await axios.post(
-        "http://localhost:8080/api/loan/compare",
+        `${import.meta.env.VITE_API_URL}/api/loan/compare`,
         {
           loanAmount: Number(loanAmount),
           interestRate: Number(interestRate),
@@ -55,30 +47,21 @@ function ComparisonForm({ loans, setLoans }) {
       setLoanTenure("");
 
       toast.success("Loan added successfully!");
-
     } catch (error) {
-
       console.error(error);
       toast.error("Failed to compare loan.");
-
     } finally {
-
       setLoading(false);
-
     }
-
   };
 
   return (
-
     <div className="bg-white rounded-2xl shadow-lg p-8">
-
       <h2 className="text-2xl font-bold mb-8">
         Add Loan Offer
       </h2>
 
       <div className="grid md:grid-cols-2 gap-6">
-
         <div>
           <label className="block mb-2 font-medium">
             Bank Name
@@ -138,7 +121,6 @@ function ComparisonForm({ loans, setLoans }) {
             className="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
-
       </div>
 
       <button
@@ -159,11 +141,8 @@ function ComparisonForm({ loans, setLoans }) {
           "Add Loan"
         )}
       </button>
-
     </div>
-
   );
-
 }
 
 export default ComparisonForm;

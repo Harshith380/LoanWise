@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -20,13 +21,16 @@ function MyApplications() {
         return;
       }
 
+      const API_URL = import.meta.env.VITE_API_URL;
+
       const response = await axios.get(
-        `http://localhost:8080/api/applications/user/${user.id}`
+        `${API_URL}/api/applications/user/${user.id}`
       );
 
-      setApplications(response.data);
+      setApplications(response.data || []);
     } catch (error) {
       console.error("Error fetching applications:", error);
+      setApplications([]);
     } finally {
       setLoading(false);
     }
@@ -35,8 +39,13 @@ function MyApplications() {
   if (loading) {
     return (
       <div className="bg-white rounded-2xl shadow-lg p-8 mt-10">
-        <h2 className="text-2xl font-bold">My Applications</h2>
-        <p className="mt-4 text-gray-600">Loading applications...</p>
+        <h2 className="text-2xl font-bold">
+          My Applications
+        </h2>
+
+        <p className="mt-4 text-gray-600">
+          Loading applications...
+        </p>
       </div>
     );
   }
@@ -65,10 +74,21 @@ function MyApplications() {
         <table className="min-w-full border-collapse">
           <thead>
             <tr className="bg-gray-100 border-b">
-              <th className="text-left px-4 py-3">Loan Type</th>
-              <th className="text-left px-4 py-3">Amount</th>
-              <th className="text-left px-4 py-3">Applied Date</th>
-              <th className="text-left px-4 py-3">Status</th>
+              <th className="text-left px-4 py-3">
+                Loan Type
+              </th>
+
+              <th className="text-left px-4 py-3">
+                Amount
+              </th>
+
+              <th className="text-left px-4 py-3">
+                Applied Date
+              </th>
+
+              <th className="text-left px-4 py-3">
+                Status
+              </th>
             </tr>
           </thead>
 
@@ -83,11 +103,14 @@ function MyApplications() {
                 </td>
 
                 <td className="px-4 py-4">
-                  ₹{application.loanAmount.toLocaleString()}
+                  ₹
+                  {Number(
+                    application.loanAmount || 0
+                  ).toLocaleString("en-IN")}
                 </td>
 
                 <td className="px-4 py-4">
-                  {application.appliedDate}
+                  {application.appliedDate || "N/A"}
                 </td>
 
                 <td className="px-4 py-4">
@@ -113,3 +136,4 @@ function MyApplications() {
 }
 
 export default MyApplications;
+

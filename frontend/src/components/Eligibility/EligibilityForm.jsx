@@ -1,10 +1,17 @@
+
 import { useState } from "react";
 import axios from "axios";
-import { Loader2, Wallet, IndianRupee, CreditCard, Percent, CalendarDays } from "lucide-react";
+import {
+  Loader2,
+  Wallet,
+  IndianRupee,
+  CreditCard,
+  Percent,
+  CalendarDays,
+} from "lucide-react";
 import { toast } from "sonner";
 
 function EligibilityForm({ setResult }) {
-
   const [loanType, setLoanType] = useState("");
   const [monthlyIncome, setMonthlyIncome] = useState("");
   const [existingEMI, setExistingEMI] = useState("");
@@ -14,7 +21,6 @@ function EligibilityForm({ setResult }) {
   const [loading, setLoading] = useState(false);
 
   const checkEligibility = async () => {
-
     if (
       !loanType ||
       !monthlyIncome ||
@@ -28,11 +34,12 @@ function EligibilityForm({ setResult }) {
     }
 
     try {
-
       setLoading(true);
 
+      const API_URL = import.meta.env.VITE_API_URL;
+
       const response = await axios.post(
-        "http://localhost:8080/api/eligibility/check",
+        `${API_URL}/api/eligibility/check`,
         {
           monthlyIncome: Number(monthlyIncome),
           existingEMI: Number(existingEMI),
@@ -49,29 +56,19 @@ function EligibilityForm({ setResult }) {
       });
 
       toast.success("Eligibility checked successfully!");
-
     } catch (error) {
-
-      console.error(error);
+      console.error("Eligibility check error:", error);
       toast.error("Failed to check eligibility");
-
     } finally {
-
       setLoading(false);
-
     }
   };
 
   return (
-
     <div className="bg-white rounded-3xl shadow-xl border border-slate-100 p-6 md:p-8">
-
       {/* Header */}
-
       <div className="mb-8">
-
         <div className="flex items-center gap-3 mb-4">
-
           <div className="w-11 h-11 rounded-2xl bg-blue-100 flex items-center justify-center">
             <Wallet
               size={22}
@@ -80,7 +77,6 @@ function EligibilityForm({ setResult }) {
           </div>
 
           <div>
-
             <p className="text-sm font-semibold text-blue-600 uppercase tracking-wide">
               Loan Details
             </p>
@@ -88,25 +84,17 @@ function EligibilityForm({ setResult }) {
             <h2 className="text-2xl font-bold text-slate-800">
               Tell us about your loan
             </h2>
-
           </div>
-
         </div>
 
         <p className="text-slate-500">
           Enter your financial details to calculate your loan eligibility.
         </p>
-
       </div>
 
-
       <div className="space-y-5">
-
-
         {/* Loan Type */}
-
         <div>
-
           <label className="font-semibold text-slate-700 block mb-2">
             Loan Type
           </label>
@@ -117,7 +105,6 @@ function EligibilityForm({ setResult }) {
             disabled={loading}
             className="w-full border border-slate-200 rounded-xl p-3.5 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
           >
-
             <option value="">
               Select Loan Type
             </option>
@@ -133,22 +120,16 @@ function EligibilityForm({ setResult }) {
             <option value="CAR">
               Car Loan
             </option>
-
           </select>
-
         </div>
 
-
         {/* Monthly Income */}
-
         <div>
-
           <label className="font-semibold text-slate-700 block mb-2">
             Monthly Income (₹)
           </label>
 
           <div className="relative">
-
             <IndianRupee
               size={18}
               className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
@@ -162,22 +143,16 @@ function EligibilityForm({ setResult }) {
               disabled={loading}
               className="w-full border border-slate-200 rounded-xl p-3.5 pl-11 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
             />
-
           </div>
-
         </div>
 
-
         {/* Existing EMI */}
-
         <div>
-
           <label className="font-semibold text-slate-700 block mb-2">
             Existing EMI (₹)
           </label>
 
           <div className="relative">
-
             <CreditCard
               size={18}
               className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
@@ -191,22 +166,16 @@ function EligibilityForm({ setResult }) {
               disabled={loading}
               className="w-full border border-slate-200 rounded-xl p-3.5 pl-11 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
             />
-
           </div>
-
         </div>
 
-
         {/* Loan Amount */}
-
         <div>
-
           <label className="font-semibold text-slate-700 block mb-2">
             Loan Amount (₹)
           </label>
 
           <div className="relative">
-
             <IndianRupee
               size={18}
               className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
@@ -220,22 +189,16 @@ function EligibilityForm({ setResult }) {
               disabled={loading}
               className="w-full border border-slate-200 rounded-xl p-3.5 pl-11 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
             />
-
           </div>
-
         </div>
 
-
         {/* Interest Rate */}
-
         <div>
-
           <label className="font-semibold text-slate-700 block mb-2">
             Interest Rate (%)
           </label>
 
           <div className="relative">
-
             <Percent
               size={18}
               className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
@@ -249,22 +212,16 @@ function EligibilityForm({ setResult }) {
               disabled={loading}
               className="w-full border border-slate-200 rounded-xl p-3.5 pl-11 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
             />
-
           </div>
-
         </div>
 
-
         {/* Loan Tenure */}
-
         <div>
-
           <label className="font-semibold text-slate-700 block mb-2">
             Loan Tenure (Years)
           </label>
 
           <div className="relative">
-
             <CalendarDays
               size={18}
               className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
@@ -278,14 +235,10 @@ function EligibilityForm({ setResult }) {
               disabled={loading}
               className="w-full border border-slate-200 rounded-xl p-3.5 pl-11 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
             />
-
           </div>
-
         </div>
 
-
         {/* Check Eligibility Button */}
-
         <button
           onClick={checkEligibility}
           disabled={loading}
@@ -295,9 +248,7 @@ function EligibilityForm({ setResult }) {
               : "bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 hover:-translate-y-0.5"
           }`}
         >
-
           {loading ? (
-
             <>
               <Loader2
                 className="animate-spin"
@@ -305,37 +256,24 @@ function EligibilityForm({ setResult }) {
               />
 
               Checking Eligibility...
-
             </>
-
           ) : (
-
-            <>
-              Check Eligibility
-            </>
-
+            <>Check Eligibility</>
           )}
-
         </button>
 
-
         {/* Security Note */}
-
         <div className="flex items-center justify-center gap-2 pt-2">
-
           <span className="w-2 h-2 bg-green-500 rounded-full"></span>
 
           <p className="text-xs text-slate-500">
             Your information is securely processed
           </p>
-
         </div>
-
       </div>
-
     </div>
-
   );
 }
 
 export default EligibilityForm;
+

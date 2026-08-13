@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Clock, Trash2 } from "lucide-react";
@@ -12,32 +13,52 @@ function LoanHistory() {
 
   const fetchHistory = async () => {
     try {
-      const user = JSON.parse(localStorage.getItem("user"));
+      const user = JSON.parse(
+        localStorage.getItem("user")
+      );
 
-if (!user) return;
+      if (!user) return;
 
-const response = await axios.get(
-  `http://localhost:8080/api/history/user/${user.id}`
-);
+      const API_URL =
+        import.meta.env.VITE_API_URL;
 
-      setHistory(response.data);
+      const response = await axios.get(
+        `${API_URL}/api/history/user/${user.id}`
+      );
+
+      setHistory(response.data || []);
     } catch (error) {
-      console.error(error);
-      toast.error("Failed to load loan history");
+      console.error(
+        "Error loading loan history:",
+        error
+      );
+
+      toast.error(
+        "Failed to load loan history"
+      );
     }
   };
 
   const deleteLoan = async (id) => {
     try {
+      const API_URL =
+        import.meta.env.VITE_API_URL;
+
       await axios.delete(
-        `http://localhost:8080/api/history/${id}`
+        `${API_URL}/api/history/${id}`
       );
 
-      toast.success("Loan deleted successfully");
+      toast.success(
+        "Loan deleted successfully"
+      );
 
       fetchHistory();
     } catch (error) {
-      console.error(error);
+      console.error(
+        "Error deleting loan:",
+        error
+      );
+
       toast.error("Delete failed");
     }
   };
@@ -47,7 +68,11 @@ const response = await axios.get(
       <div className="max-w-6xl mx-auto px-6">
 
         <div className="flex items-center gap-3 mb-10">
-          <Clock className="text-blue-600" size={34} />
+          <Clock
+            className="text-blue-600"
+            size={34}
+          />
+
           <h1 className="text-4xl font-bold">
             Loan History
           </h1>
@@ -60,7 +85,8 @@ const response = await axios.get(
             </h2>
 
             <p className="text-gray-500 mt-3">
-              Calculate an EMI first to save loan history.
+              Calculate an EMI first to save loan
+              history.
             </p>
           </div>
         ) : (
@@ -74,36 +100,64 @@ const response = await axios.get(
                 <div className="flex justify-between items-start">
 
                   <div>
-
                     <h2 className="text-2xl font-bold text-blue-600">
-                      ₹ {Number(item.loanAmount).toLocaleString()}
+                      ₹{" "}
+                      {Number(
+                        item.loanAmount || 0
+                      ).toLocaleString("en-IN")}
                     </h2>
 
                     <p className="mt-2 text-gray-600">
-                      <strong>Interest Rate:</strong> {item.interestRate}%
+                      <strong>
+                        Interest Rate:
+                      </strong>{" "}
+                      {item.interestRate}%
                     </p>
 
                     <p className="text-gray-600">
-                      <strong>Tenure:</strong> {item.tenure} Years
+                      <strong>
+                        Tenure:
+                      </strong>{" "}
+                      {item.tenure} Years
                     </p>
 
                     <p className="text-gray-600">
-                      <strong>Monthly EMI:</strong> ₹ {Number(item.monthlyEMI).toFixed(2)}
+                      <strong>
+                        Monthly EMI:
+                      </strong>{" "}
+                      ₹{" "}
+                      {Number(
+                        item.monthlyEMI || 0
+                      ).toFixed(2)}
                     </p>
 
                     <p className="text-gray-600">
-                      <strong>Total Interest:</strong> ₹ {Number(item.totalInterest).toFixed(2)}
+                      <strong>
+                        Total Interest:
+                      </strong>{" "}
+                      ₹{" "}
+                      {Number(
+                        item.totalInterest || 0
+                      ).toFixed(2)}
                     </p>
 
                     <p className="text-gray-600">
-                      <strong>Total Amount:</strong> ₹ {Number(item.totalAmount).toFixed(2)}
+                      <strong>
+                        Total Amount:
+                      </strong>{" "}
+                      ₹{" "}
+                      {Number(
+                        item.totalAmount || 0
+                      ).toFixed(2)}
                     </p>
-
                   </div>
 
                   <button
-                    onClick={() => deleteLoan(item.id)}
+                    onClick={() =>
+                      deleteLoan(item.id)
+                    }
                     className="bg-red-100 hover:bg-red-200 text-red-600 p-3 rounded-xl transition"
+                    title="Delete loan"
                   >
                     <Trash2 size={22} />
                   </button>
@@ -114,10 +168,10 @@ const response = await axios.get(
 
           </div>
         )}
-
       </div>
     </div>
   );
 }
 
 export default LoanHistory;
+

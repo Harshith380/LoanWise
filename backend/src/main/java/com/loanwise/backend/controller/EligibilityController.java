@@ -9,7 +9,7 @@ import com.loanwise.backend.service.EligibilityService;
 
 @RestController
 @RequestMapping("/api/eligibility")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:5174", "https://loan-wise-6ckcnxq2i-harshith-16ef.vercel.app"})
 public class EligibilityController {
 
     @Autowired

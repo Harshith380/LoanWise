@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -34,7 +33,7 @@ function FinancialProfile() {
           import.meta.env.VITE_API_URL;
 
         const response = await axios.get(
-          `${API_URL}/api/financial-profile/${user.id}`
+          `${API_URL}/api/financial-profile/user/${user.id}`
         );
 
         if (response.data) {
@@ -49,7 +48,8 @@ function FinancialProfile() {
               response.data.existingLoan || "",
             monthlyExpenses:
               response.data.monthlyExpenses || "",
-            age: response.data.age || "",
+            age:
+              response.data.age || "",
             loanPurpose:
               response.data.loanPurpose || "",
           });

@@ -39,7 +39,10 @@ public class SecurityConfig {
                 ).permitAll()
 
                 // Allow browser CORS preflight requests
-                .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**")
+                .requestMatchers(
+                    org.springframework.http.HttpMethod.OPTIONS,
+                    "/**"
+                )
                 .permitAll()
 
                 .anyRequest().authenticated()
@@ -57,15 +60,17 @@ public class SecurityConfig {
 
         configuration.setAllowedOrigins(
             List.of(
+                // Local development
                 "http://localhost:5173",
                 "http://localhost:5174",
 
-                // Previous Vercel URLs
+                // Vercel URLs
                 "https://loan-wise-two.vercel.app",
                 "https://loan-wise-f1ebyqklq-harshith-16ef.vercel.app",
+                "https://loan-wise-2rsbb2vxk-harshith-16ef.vercel.app",
 
-                // Current Vercel production URL
-                "https://loan-wise-2rsbb2vxk-harshith-16ef.vercel.app"
+                // Actual Vercel origin from browser error
+                "https://loan-wise-nyow67wll-harshith-16ef.vercel.app"
             )
         );
 

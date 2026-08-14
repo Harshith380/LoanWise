@@ -21,6 +21,7 @@ public class SecurityConfig {
 
         http
             .cors(Customizer.withDefaults())
+
             .csrf(csrf -> csrf.disable())
 
             .authorizeHttpRequests(auth -> auth
@@ -37,6 +38,10 @@ public class SecurityConfig {
                     "/api/applications/**"
                 ).permitAll()
 
+                // Allow browser CORS preflight requests
+                .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**")
+                .permitAll()
+
                 .anyRequest().authenticated()
             )
 
@@ -51,13 +56,18 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
 
         configuration.setAllowedOrigins(
-    List.of(
-        "http://localhost:5173",
-        "http://localhost:5174",
-        "https://loan-wise-two.vercel.app",
-        "https://loan-wise-f1ebyqklq-harshith-16ef.vercel.app"
-    )
-);
+            List.of(
+                "http://localhost:5173",
+                "http://localhost:5174",
+
+                // Previous Vercel URLs
+                "https://loan-wise-two.vercel.app",
+                "https://loan-wise-f1ebyqklq-harshith-16ef.vercel.app",
+
+                // Current Vercel production URL
+                "https://loan-wise-2rsbb2vxk-harshith-16ef.vercel.app"
+            )
+        );
 
         configuration.setAllowedMethods(
             List.of(

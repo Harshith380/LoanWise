@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Clock, Trash2 } from "lucide-react";
@@ -118,7 +117,7 @@ function LoanHistory() {
                       <strong>
                         Tenure:
                       </strong>{" "}
-                      {item.tenure} Years
+                      {item.tenure} Months
                     </p>
 
                     <p className="text-gray-600">
@@ -174,4 +173,3 @@ function LoanHistory() {
 }
 
 export default LoanHistory;
-

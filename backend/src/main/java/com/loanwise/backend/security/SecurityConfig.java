@@ -2,6 +2,7 @@ package com.loanwise.backend.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
@@ -25,6 +26,8 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
 
             .authorizeHttpRequests(auth -> auth
+
+                // Public API endpoints
                 .requestMatchers(
                     "/api/users/register",
                     "/api/users/login",
@@ -38,13 +41,13 @@ public class SecurityConfig {
                     "/api/applications/**"
                 ).permitAll()
 
-                // Allow browser CORS preflight requests
+                // Allow CORS preflight requests
                 .requestMatchers(
-                    org.springframework.http.HttpMethod.OPTIONS,
+                    HttpMethod.OPTIONS,
                     "/**"
-                )
-                .permitAll()
+                ).permitAll()
 
+                // All other endpoints require authentication
                 .anyRequest().authenticated()
             )
 
@@ -64,13 +67,14 @@ public class SecurityConfig {
                 "http://localhost:5173",
                 "http://localhost:5174",
 
-                // Vercel URLs
+                // Vercel production/deployment URLs
                 "https://loan-wise-two.vercel.app",
                 "https://loan-wise-f1ebyqklq-harshith-16ef.vercel.app",
                 "https://loan-wise-2rsbb2vxk-harshith-16ef.vercel.app",
+                "https://loan-wise-nyow67wll-harshith-16ef.vercel.app",
 
-                // Actual Vercel origin from browser error
-                "https://loan-wise-nyow67wll-harshith-16ef.vercel.app"
+                // Current Vercel frontend
+                "https://loan-wise-doz4kziti-harshith-16ef.vercel.app"
             )
         );
 
